@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
 
@@ -33,6 +34,24 @@ public class JpaMain {
 
             //멤버 삭제
             em.remove(findMember);
+
+
+            /*
+            JPQL
+            * */
+            // JPQL 쿼리 작성해서 멤버 리스트 전체조회
+            // 객체지향 쿼리: JPQL쿼리에서 Member는 테이블이 아니라 객체
+            List<Member> result = em.createQuery("select m from Member as m",Member.class)
+                    .setFirstResult(3) // 3번 객체부터
+                    .setMaxResults(8) // 8개 가지 조회
+                    .getResultList();
+
+            //전체 멤버 리스트 출력
+            for(Member member:result){
+                System.out.println("MemberName is : "+member.getName());
+            }
+
+
 
 
 
