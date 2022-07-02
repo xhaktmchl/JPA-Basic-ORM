@@ -28,6 +28,15 @@ public class JpaMain {
             Member findMember = em.find(Member.class,1L);
             System.out.println("멤버 아이디:"+findMember.getId());
 
+            //멤버 수정
+            findMember.setName("수정된 멤버 이름2");
+
+            //멤버 삭제
+            em.remove(findMember);
+
+
+
+
             tx.commit(); // 트랜섹션 요청 실행
         }catch (Exception e){
             tx.rollback();
