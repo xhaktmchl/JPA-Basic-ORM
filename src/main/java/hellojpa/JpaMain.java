@@ -82,6 +82,11 @@ public class JpaMain {
             //3.변경 감지
             member3.setName("수정된 이름3");// 엔티티 수정을 알아서 감지하고 쿼리 날림
 
+//            /*준영속 상태로 만들기*/
+//            em.detach(member); // 해당 엔티티만 준영속
+//            em.clear(); // 1차캐시에 있는 모든 엔티티 준영속으로
+//            em.close(); // 영속 삭태를 종료
+
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
