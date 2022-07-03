@@ -52,10 +52,38 @@ public class JpaMain {
             }
 
 
+            /*영속성 컨텍스트*/
+            //1.비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("이름2");
+
+            //2.영속
+            System.out.println("===Before");
+            em.persist(member); // 1차 캐시에 저장 됨
+            System.out.println("==After");
+
+            em.find(Member.class,100L);// 1차 캐시에서 조회 => 쿼리를 안날리고 바로 조회
+
+            /*영속성 사용 이유*/
+            //1.엔티티 동일성 보장
+            Member member1 = em.find(Member.class, 100L);
+            Member member2 = em.find(Member.class, 100L);
+            System.out.println(member1 == member2); // 같은 객체로 인식식
+
+            //2.트랜젝션 지원하는 쓰기 지연
+            Member member3 = new Member();
+            Member member4 = new Member();
+
+            em.persist(member3);
+            em.persist(member4);
+            //트랜젝션 커밋 전 까지 쓰기 지연 sql에 저장되어 있음
+
+            //3.변경 감지
+            member3.setName("수정된 이름3");// 엔티티 수정을 알아서 감지하고 쿼리 날림
 
 
-
-
+            // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
         }catch (Exception e){
             tx.rollback();
