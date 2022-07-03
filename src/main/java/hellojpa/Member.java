@@ -40,11 +40,11 @@ public class Member {
     }
 
     public String getName(){
-        return name;
+        return userName;
     }
 
-    public void setName(String name){
-        this.name= name;
+    public void setName(String userName){
+        this.userName= userName;
     }
 
 
