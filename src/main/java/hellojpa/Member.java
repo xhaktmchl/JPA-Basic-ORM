@@ -1,6 +1,8 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity //@Entity는 JPA에서 관리하는 엔티티임을 의미
@@ -26,6 +28,10 @@ public class Member {
 
     @Temporal(TemporalType.TIMESTAMP) // 날짜 타입 매핑
     private Date updateAt;
+
+    // 최신 날짜타입 LocalDate,LocalDateTime은 @Temporal 필요 없음
+    private LocalDate testLocalDate;
+    private LocalDateTime testLocalDateTime;
 
     @Transient // db에 미핑 안시킬 것
     private int tmp;
