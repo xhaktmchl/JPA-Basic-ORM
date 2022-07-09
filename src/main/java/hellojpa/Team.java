@@ -1,6 +1,8 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Team {
@@ -13,6 +15,9 @@ public class Team {
     @Column(name = "TEAM_NAME")
     private String name;
 
+    // 일대다 연관관계 매핑
+    @OneToMany(mappedBy = "team")  // mappedBy = "team" : 삳애 엔티티 team 변수명과 연관 됨.
+    private List<Member> members=new ArrayList<>();
 
 
     public Long getId() {
@@ -29,5 +34,13 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 }

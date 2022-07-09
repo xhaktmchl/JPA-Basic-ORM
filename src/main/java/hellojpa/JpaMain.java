@@ -116,6 +116,30 @@ public class JpaMain {
             System.out.println("연관관계 참조한 팀:"+findMember2.getTeam().getName()); // 멤버에 속한 팀 바로 조회
 
 
+            /*
+            * 양방향 연관관계 매핑
+            * */
+            //저장
+            Team team3 = new Team();
+            team3.setName("team3");
+            em.persist(team3);
+
+            Member member3= new Member();
+            member3.setUsername("name3");
+            member3.setTeam(team3);
+            em.persist(member3);
+
+            em.flush();
+            em.clear();
+            // 조회
+            Member findMember3 = em.find(Member.class,member3.getId());
+            List<Member> members = findMember3.getTeam().getMembers(); // 회원이 속한 팀 -> 팀에 속한 모든 멤버들 조회
+            for(Member m :members){
+                System.out.println("양방향 연관: 팀-> 팀에속한 멤버들"+m.getUsername());
+            }
+
+
+
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
         }catch (Exception e){
