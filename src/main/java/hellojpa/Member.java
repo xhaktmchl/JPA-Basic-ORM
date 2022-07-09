@@ -86,6 +86,11 @@ public class Member {
         this.team = team;
     }
 
+    public void changeTeam(Team team){
+        this.team = team;
+        team.getMembers().add(this); // 양방향 연관관계 수정 시 양쪽 수정
+    }
+
     public String getUsername() {
         return username;
     }

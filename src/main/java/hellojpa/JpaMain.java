@@ -139,6 +139,39 @@ public class JpaMain {
             }
 
 
+            /*
+            * 양방향 연관관계의 주의점
+            * */
+            // 1.연관관계의 주인을 수정해야  상대 엔티티에도 자동으로 적용된다.
+            // Team.members 를 바꿔도 안 됌.
+            Member member4= new Member();
+            member4.setUsername("name4");
+            //member4.setTeam(team4);
+            em.persist(member4);
+
+            Team team4 = new Team();
+            team4.setName("team4");
+            team4.getMembers().add(member4); // 주의: 연관관계 주인이 아니여서 적용 안됌.
+            em.persist(team4);
+
+            em.flush();
+            em.clear();
+
+            //2.해결: 따라서 양 쪽 엔티티 모두 수정해야 함
+            Team team5 = new Team();
+            team5.setName("team5");
+            em.persist(team5);
+
+            Member member5= new Member();
+            member5.setUsername("name5");
+            member5.setTeam(team5);
+            em.persist(member5);
+
+            //team5.getMembers().add(member4); // 양 쪽 다 저장
+            member5.changeTeam(team5);
+
+            em.flush();
+            em.clear();
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
