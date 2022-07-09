@@ -18,11 +18,15 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name = "TEAM_ID")
-    private Long teamId;
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+    @ManyToOne // 회원 일 - 팀 다 관계
+    @JoinColumn(name = "TEAM_ID") // 조인 할 컬럼 이름 설정
+    private Team team;
 
     @Column(name = "USERNAME")
-    private String userName;
+    private String username;
 
 //    @Column(name="name", nullable = true, length = 50, unique = true) // DDL 생성기능:테이블 컬럼에 옵션지정 가능
 //    private String userName;
@@ -66,4 +70,27 @@ public class Member {
 //    }
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
