@@ -18,9 +18,6 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long id;
 
-//    @Column(name = "TEAM_ID")
-//    private Long teamId;
-
     @ManyToOne // 회원 일 - 팀 다 관계
     @JoinColumn(name = "TEAM_ID") // 조인 할 컬럼 이름 설정
     private Team team;
@@ -28,47 +25,9 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-//    @Column(name="name", nullable = true, length = 50, unique = true) // DDL 생성기능:테이블 컬럼에 옵션지정 가능
-//    private String userName;
-//
-//    private Integer age;
-//
-//    @Enumerated(EnumType.STRING) // enum 타입 매핑, 속성: EnumType.STRING enum타입의 이름을 사용
-//    private RoleType roleType;
-//
-//    @Lob // 길이 제한 없는 문자열 매핑
-//    private String description;
-//
-//    @Temporal(TemporalType.TIMESTAMP) // 날짜 타입 매핑
-//    private Date createAt;
-//
-//    @Temporal(TemporalType.TIMESTAMP) // 날짜 타입 매핑
-//    private Date updateAt;
-//
-//    // 최신 날짜타입 LocalDate,LocalDateTime은 @Temporal 필요 없음
-//    private LocalDate testLocalDate;
-//    private LocalDateTime testLocalDateTime;
-//
-//    @Transient // db에 미핑 안시킬 것
-//    private int tmp;
-//
-//    // getter, setter
-//    public Long getId(){
-//        return id;
-//    }
-//
-//    public void setId(Long id){
-//        this.id = id;
-//    }
-//
-//    public String getName(){
-//        return userName;
-//    }
-//
-//    public void setName(String userName){
-//        this.userName= userName;
-//    }
-
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
 
     public Long getId() {
         return id;
