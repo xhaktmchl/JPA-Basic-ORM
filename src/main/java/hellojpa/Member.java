@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity //@Entity는 JPA에서 관리하는 엔티티임을 의미
 //@Table // 엔티티를 원하는 테이블과 매핑
 //@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq") // 기본키 시퀀스 매핑 시 옵션
-public class Member {
+public class Member extends BaseEntity{
 
     @Id // JPA 에게 주요키 임을 알리는 어노테이션
 //    @GeneratedValue(strategy = GenerationType.AUTO) // 자동 생성, IDENTITY,SEQUENCE,TABLE 중 알아서 선택
