@@ -11,5 +11,8 @@ public class Product extends BaseEntity{
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
 }

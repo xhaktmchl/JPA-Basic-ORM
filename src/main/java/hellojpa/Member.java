@@ -3,7 +3,9 @@ package hellojpa;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity //@Entity는 JPA에서 관리하는 엔티티임을 의미
 //@Table // 엔티티를 원하는 테이블과 매핑
@@ -19,7 +21,7 @@ public class Member extends BaseEntity{
     private Long id;
 
     @ManyToOne // 회원 일 - 팀 다 관계
-    @JoinColumn(name = "TEAM_ID") // 조인 할 컬럼 이름 설정
+    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // 조인 할 컬럼 이름 설정
     private Team team;
 
     @Column(name = "USERNAME")
@@ -28,6 +30,9 @@ public class Member extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
+
+    @OneToMany(mappedBy = "member")
+    private List<Product> memberProducts = new ArrayList<>();
 
     public Long getId() {
         return id;
