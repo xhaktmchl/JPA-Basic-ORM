@@ -20,7 +20,7 @@ public class Member extends BaseEntity{
     @Column(name = "MEMBER_ID")
     private Long id;
 
-    @ManyToOne // 회원 일 - 팀 다 관계
+    @ManyToOne(fetch = FetchType.LAZY) // 회원 일 - 팀 다 관계
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // 조인 할 컬럼 이름 설정
     private Team team;
 

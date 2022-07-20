@@ -203,7 +203,30 @@ public class JpaMain {
             System.out.println("초기화 여부 확인"+ reference4.getClass());
 
             // 프록시 강제 초기화
-            Hibernate.initialize(reference4); //
+            Hibernate.initialize(reference4);
+
+
+            /*
+            프록시 지연로딩
+            */
+            Team team8 = new Team();
+            team8.setName("team8");
+
+            Member member8 = new Member();
+            member8.setUsername("name8");
+            member8.setTeam(team8);
+
+            em.persist(member8);
+            em.flush();
+            em.clear();
+
+            Member m8 = em.find(Member.class, member8.getId());
+
+            System.out.println(m8.getTeam().getClass());
+            System.out.println("===========");
+            m8.getTeam().getClass(); // 지연로딩 이째 프록시로 조회 함
+            System.out.println("===========");
+
 
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
