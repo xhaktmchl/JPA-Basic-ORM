@@ -34,6 +34,13 @@ public class Member extends BaseEntity{
     @OneToMany(mappedBy = "member")
     private List<Product> memberProducts = new ArrayList<>();
 
+    @Embedded
+    private Period workPeriod;
+
+    @Embedded
+    private Address homeAddress;
+
+    /*연관관계 편의 메소드*/
     public Long getId() {
         return id;
     }
@@ -61,5 +68,21 @@ public class Member extends BaseEntity{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }

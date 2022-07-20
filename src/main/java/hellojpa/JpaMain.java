@@ -246,6 +246,18 @@ public class JpaMain {
             findParent1.getChildList().remove(0); // orphan객체 같이 삭제
 
 
+            /*
+            임베디드 타입
+             */
+            Member member9 = new Member();
+            member9.setUsername("name9");
+            member9.setHomeAddress(new Address("서울","논현로","200호"));
+            member9.setWorkPeriod(new Period());
+
+            em.persist(member9);
+            em.flush();
+            em.clear();
+
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
