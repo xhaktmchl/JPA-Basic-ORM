@@ -38,7 +38,22 @@ public class Member extends BaseEntity{
     private Period workPeriod;
 
     @Embedded
+    @AttributeOverrides ( {@AttributeOverride(name = "city",
+            column = @Column(name = "HOME_CITY")),
+            @AttributeOverride(name = "street",
+                    column = @Column(name = "HOME_STREET")),
+            @AttributeOverride(name = "zipcode",
+                    column = @Column(name = "HOME_ZIPCODE")) })
     private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides ( {@AttributeOverride(name = "city",
+            column = @Column(name = "WORK_CITY")),
+            @AttributeOverride(name = "street",
+                    column = @Column(name = "WORK_STREET")),
+            @AttributeOverride(name = "zipcode",
+                    column = @Column(name = "WORK_ZIPCODE")) })
+    private Address workAddress;
 
     /*연관관계 편의 메소드*/
     public Long getId() {

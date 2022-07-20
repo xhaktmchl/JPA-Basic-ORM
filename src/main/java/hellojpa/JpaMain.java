@@ -254,6 +254,9 @@ public class JpaMain {
             member9.setHomeAddress(new Address("서울","논현로","200호"));
             member9.setWorkPeriod(new Period());
 
+            /*불변 객체*/
+
+
             em.persist(member9);
             em.flush();
             em.clear();
