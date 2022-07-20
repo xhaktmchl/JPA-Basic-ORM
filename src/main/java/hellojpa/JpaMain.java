@@ -228,6 +228,24 @@ public class JpaMain {
             System.out.println("===========");
 
 
+            /*
+            영속성 전이 CASCADE , 고아객체
+            * */
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent); // CASCADE에 의해 Child까지 persist 됨
+            em.flush();
+            em.clear();
+
+            Parent findParent1 = em.find(Parent.class, parent.getId());
+            findParent1.getChildList().remove(0); // orphan객체 같이 삭제
+
+
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
