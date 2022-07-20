@@ -1,5 +1,7 @@
 package hellojpa;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -173,10 +175,42 @@ public class JpaMain {
             em.flush();
             em.clear();
 
+            /*프록시*/
+            // 실제 엔티티의 메소드 사용 가능
+            Member reference3 = em.getReference(Member.class, member3.getId());
+            System.out.println("프록시 객체: "+reference3.getUsername()); // 실제 메소드 요청될 때 프록시 초기화 진행
+
+            // 프록시 객체 =! 엔티티 클래스
+
+           // 엔티티 조회 먼저
+            Member m6 = em.find(Member.class, member5.getId());
+            System.out.println("find 객체: "+m6.getClass());
+            Member reference1 = em.getReference(Member.class, member5.getId());
+            System.out.println("프록시 객체: "+reference1.getClass());
+
+            // 프록시 객체 초기화 먼저
+            Member reference2 = em.getReference(Member.class, member4.getId());
+            System.out.println("프록시 객체: "+reference2.getClass());
+            Member m7 = em.find(Member.class, member4.getId());
+            System.out.println("find 객체: "+m7.getClass());
+
+            /*프록시 메소드*/
+            // 초기화 여부 확인
+            Member reference4 = em.getReference(Member.class, member2.getId());
+            System.out.println("초기화 여부 확인"+ emf.getPersistenceUnitUtil().isLoaded(reference4));
+
+            //프록시 클래스 확인
+            System.out.println("초기화 여부 확인"+ reference4.getClass());
+
+            // 프록시 강제 초기화
+            Hibernate.initialize(reference4); //
+
+
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
         }catch (Exception e){
             tx.rollback();
+            e.printStackTrace();
         }finally {
             em.close();// 엔티티매니저 종료
         }
