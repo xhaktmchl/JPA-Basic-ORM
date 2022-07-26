@@ -57,13 +57,17 @@ public class Member extends BaseEntity{
     @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
             @JoinColumn(name = "MEMBER_ID")
     )
+    @Column(name = "FOOD_NAME")
     private Set<String> favoriteFoods = new HashSet<>();
 
-    @ElementCollection// 값 타입 컬렉션
-    @CollectionTable(name = "ADDRESS", joinColumns =
-            @JoinColumn(name = "MEMBER_ID")
-    )
-    private List<Address> addresseHistory = new ArrayList<>();
+    //    @ElementCollection// 값 타입 컬렉션
+//    @CollectionTable(name = "ADDRESS", joinColumns =
+//            @JoinColumn(name = "MEMBER_ID")
+//    )
+//    private List<Address> addresseHistory = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addresseHistory = new ArrayList<>();
 
 
     /*연관관계 편의 메소드*/
@@ -144,11 +148,11 @@ public class Member extends BaseEntity{
         this.favoriteFoods = favoriteFoods;
     }
 
-    public List<Address> getAddresseHistory() {
+    public List<AddressEntity> getAddresseHistory() {
         return addresseHistory;
     }
 
-    public void setAddresseHistory(List<Address> addresseHistory) {
+    public void setAddresseHistory(List<AddressEntity> addresseHistory) {
         this.addresseHistory = addresseHistory;
     }
 }

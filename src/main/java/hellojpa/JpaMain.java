@@ -263,27 +263,43 @@ public class JpaMain {
 
 
             /*
-            값 타입 컬렉션션
+            값 타입 컬렉션 저장
            * */
             Member member10 = new Member();
             member10.setUsername("member10");
-            member10.setHomeAddress(new Address("homeCity", "street", "zipcode"));
+            member10.setHomeAddress(new Address("homeCity", "street", "10000"));
 
             member10.getFavoriteFoods().add("치킨");
             member10.getFavoriteFoods().add("피자");
 
-            member10.getAddresseHistory().add(new Address("old1", "street", "zipcode"));
-            member10.getAddresseHistory().add(new Address("old2", "street", "zipcode"));
+            member10.getAddresseHistory().add(new AddressEntity("old1", "street", "10000"));
+            member10.getAddresseHistory().add(new AddressEntity("old2", "street", "10000"));
 
             em.persist(member10);
             em.flush();
             em.clear();
 
             Member findMember10 = em.find(Member.class, member10.getId());
-            List<Address> addressHistory = findMember10.getAddresseHistory();
-            for(Address address: addressHistory){
-                System.out.println("address ="+address.getCity());
+//            List<Address> addressHistory = findMember10.getAddresseHistory();
+            List<AddressEntity> addressHistory = findMember10.getAddresseHistory();
+            for(AddressEntity address: addressHistory){
+                System.out.println("address ="+address.getAddress().getCity());
             }
+            /*
+            값 타입 컬렉션 수정
+           * */
+            // 집주소 변경
+            Address a = findMember10.getHomeAddress();
+            findMember10.setHomeAddress(new Address("newcity", a.getStreet(), a.getZipcode()));
+            //음식 목록 변경
+            findMember10.getFavoriteFoods().remove("치킨");
+            findMember10.getFavoriteFoods().add("한식");
+
+            // Address 리스트는 객체 자체를 삭제하고 추가해야함
+            findMember10.getAddresseHistory().remove(new AddressEntity("old1", "street", "10000"));
+            findMember10.getAddresseHistory().add(new AddressEntity("newCity1", "street", "10000"));
+
+
 
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
