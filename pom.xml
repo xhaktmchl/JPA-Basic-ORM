@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>1.4.199</version>
         </dependency>
 
         <!--persistence관련 NoClassDefFoundError 관련 트러블 슈팅 -->

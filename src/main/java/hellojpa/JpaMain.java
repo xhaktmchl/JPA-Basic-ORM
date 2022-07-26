@@ -105,161 +105,185 @@ public class JpaMain {
             * 단방향 연관관계 설정
             * */
             // 저장
-            Team team2 = new Team();
-            team2.setName("team2");
-            em.persist(team2);
-
-            Member member2= new Member();
-            member2.setUsername("name2");
-            member2.setTeam(team2); // 단방향 연관관계 설정,
-            em.persist(member2);
-            //조회
-            Member findMember2 = em.find(Member.class,member2.getId());
-            System.out.println("연관관계 참조한 팀:"+findMember2.getTeam().getName()); // 멤버에 속한 팀 바로 조회
+//            Team team2 = new Team();
+//            team2.setName("team2");
+//            em.persist(team2);
+//
+//            Member member2= new Member();
+//            member2.setUsername("name2");
+//            member2.setTeam(team2); // 단방향 연관관계 설정,
+//            em.persist(member2);
+//            //조회
+//            Member findMember2 = em.find(Member.class,member2.getId());
+//            System.out.println("연관관계 참조한 팀:"+findMember2.getTeam().getName()); // 멤버에 속한 팀 바로 조회
+//
+//
+//            /*
+//            * 양방향 연관관계 매핑
+//            * */
+//            //저장
+//            Team team3 = new Team();
+//            team3.setName("team3");
+//            em.persist(team3);
+//
+//            Member member3= new Member();
+//            member3.setUsername("name3");
+//            member3.setTeam(team3);
+//            em.persist(member3);
+//
+//            em.flush();
+//            em.clear();
+//            // 조회
+//            Member findMember3 = em.find(Member.class,member3.getId());
+//            List<Member> members = findMember3.getTeam().getMembers(); // 회원이 속한 팀 -> 팀에 속한 모든 멤버들 조회
+//            for(Member m :members){
+//                System.out.println("양방향 연관: 팀-> 팀에속한 멤버들"+m.getUsername());
+//            }
+//
+//
+//            /*
+//            * 양방향 연관관계의 주의점
+//            * */
+//            // 1.연관관계의 주인을 수정해야  상대 엔티티에도 자동으로 적용된다.
+//            // Team.members 를 바꿔도 안 됌.
+//            Member member4= new Member();
+//            member4.setUsername("name4");
+//            //member4.setTeam(team4);
+//            em.persist(member4);
+//
+//            Team team4 = new Team();
+//            team4.setName("team4");
+//            team4.getMembers().add(member4); // 주의: 연관관계 주인이 아니여서 적용 안됌.
+//            em.persist(team4);
+//
+//            em.flush();
+//            em.clear();
+//
+//            //2.해결: 따라서 양 쪽 엔티티 모두 수정해야 함
+//            Team team5 = new Team();
+//            team5.setName("team5");
+//            em.persist(team5);
+//
+//            Member member5= new Member();
+//            member5.setUsername("name5");
+//            member5.setTeam(team5);
+//            em.persist(member5);
+//
+//            //team5.getMembers().add(member4); // 양 쪽 다 저장
+//            member5.changeTeam(team5);
+//
+//            em.flush();
+//            em.clear();
+//
+//            /*프록시*/
+//            // 실제 엔티티의 메소드 사용 가능
+//            Member reference3 = em.getReference(Member.class, member3.getId());
+//            System.out.println("프록시 객체: "+reference3.getUsername()); // 실제 메소드 요청될 때 프록시 초기화 진행
+//
+//            // 프록시 객체 =! 엔티티 클래스
+//
+//           // 엔티티 조회 먼저
+//            Member m6 = em.find(Member.class, member5.getId());
+//            System.out.println("find 객체: "+m6.getClass());
+//            Member reference1 = em.getReference(Member.class, member5.getId());
+//            System.out.println("프록시 객체: "+reference1.getClass());
+//
+//            // 프록시 객체 초기화 먼저
+//            Member reference2 = em.getReference(Member.class, member4.getId());
+//            System.out.println("프록시 객체: "+reference2.getClass());
+//            Member m7 = em.find(Member.class, member4.getId());
+//            System.out.println("find 객체: "+m7.getClass());
+//
+//            /*프록시 메소드*/
+//            // 초기화 여부 확인
+//            Member reference4 = em.getReference(Member.class, member2.getId());
+//            System.out.println("초기화 여부 확인"+ emf.getPersistenceUnitUtil().isLoaded(reference4));
+//
+//            //프록시 클래스 확인
+//            System.out.println("초기화 여부 확인"+ reference4.getClass());
+//
+//            // 프록시 강제 초기화
+//            Hibernate.initialize(reference4);
+//
+//
+//            /*
+//            프록시 지연로딩
+//            */
+//            Team team8 = new Team();
+//            team8.setName("team8");
+//
+//            Member member8 = new Member();
+//            member8.setUsername("name8");
+//            member8.setTeam(team8);
+//
+//            em.persist(member8);
+//            em.flush();
+//            em.clear();
+//
+//            Member m8 = em.find(Member.class, member8.getId());
+//
+//            System.out.println(m8.getTeam().getClass());
+//            System.out.println("===========");
+//            m8.getTeam().getClass(); // 지연로딩 이째 프록시로 조회 함
+//            System.out.println("===========");
+//
+//
+//            /*
+//            영속성 전이 CASCADE , 고아객체
+//            * */
+//            Child child1 = new Child();
+//            Child child2 = new Child();
+//
+//            Parent parent = new Parent();
+//            parent.addChild(child1);
+//            parent.addChild(child2);
+//
+//            em.persist(parent); // CASCADE에 의해 Child까지 persist 됨
+//            em.flush();
+//            em.clear();
+//
+//            Parent findParent1 = em.find(Parent.class, parent.getId());
+//            findParent1.getChildList().remove(0); // orphan객체 같이 삭제
+//
+//
+//            /*
+//            임베디드 타입
+//             */
+//            Member member9 = new Member();
+//            member9.setUsername("name9");
+//            member9.setHomeAddress(new Address("서울","논현로","200호"));
+//            member9.setWorkPeriod(new Period());
+//
+//            /*불변 객체*/
+//
+//
+//            em.persist(member9);
+//            em.flush();
+//            em.clear();
 
 
             /*
-            * 양방향 연관관계 매핑
-            * */
-            //저장
-            Team team3 = new Team();
-            team3.setName("team3");
-            em.persist(team3);
+            값 타입 컬렉션션
+           * */
+            Member member10 = new Member();
+            member10.setUsername("member10");
+            member10.setHomeAddress(new Address("homeCity", "street", "zipcode"));
 
-            Member member3= new Member();
-            member3.setUsername("name3");
-            member3.setTeam(team3);
-            em.persist(member3);
+            member10.getFavoriteFoods().add("치킨");
+            member10.getFavoriteFoods().add("피자");
 
+            member10.getAddresseHistory().add(new Address("old1", "street", "zipcode"));
+            member10.getAddresseHistory().add(new Address("old2", "street", "zipcode"));
+
+            em.persist(member10);
             em.flush();
             em.clear();
-            // 조회
-            Member findMember3 = em.find(Member.class,member3.getId());
-            List<Member> members = findMember3.getTeam().getMembers(); // 회원이 속한 팀 -> 팀에 속한 모든 멤버들 조회
-            for(Member m :members){
-                System.out.println("양방향 연관: 팀-> 팀에속한 멤버들"+m.getUsername());
+
+            Member findMember10 = em.find(Member.class, member10.getId());
+            List<Address> addressHistory = findMember10.getAddresseHistory();
+            for(Address address: addressHistory){
+                System.out.println("address ="+address.getCity());
             }
-
-
-            /*
-            * 양방향 연관관계의 주의점
-            * */
-            // 1.연관관계의 주인을 수정해야  상대 엔티티에도 자동으로 적용된다.
-            // Team.members 를 바꿔도 안 됌.
-            Member member4= new Member();
-            member4.setUsername("name4");
-            //member4.setTeam(team4);
-            em.persist(member4);
-
-            Team team4 = new Team();
-            team4.setName("team4");
-            team4.getMembers().add(member4); // 주의: 연관관계 주인이 아니여서 적용 안됌.
-            em.persist(team4);
-
-            em.flush();
-            em.clear();
-
-            //2.해결: 따라서 양 쪽 엔티티 모두 수정해야 함
-            Team team5 = new Team();
-            team5.setName("team5");
-            em.persist(team5);
-
-            Member member5= new Member();
-            member5.setUsername("name5");
-            member5.setTeam(team5);
-            em.persist(member5);
-
-            //team5.getMembers().add(member4); // 양 쪽 다 저장
-            member5.changeTeam(team5);
-
-            em.flush();
-            em.clear();
-
-            /*프록시*/
-            // 실제 엔티티의 메소드 사용 가능
-            Member reference3 = em.getReference(Member.class, member3.getId());
-            System.out.println("프록시 객체: "+reference3.getUsername()); // 실제 메소드 요청될 때 프록시 초기화 진행
-
-            // 프록시 객체 =! 엔티티 클래스
-
-           // 엔티티 조회 먼저
-            Member m6 = em.find(Member.class, member5.getId());
-            System.out.println("find 객체: "+m6.getClass());
-            Member reference1 = em.getReference(Member.class, member5.getId());
-            System.out.println("프록시 객체: "+reference1.getClass());
-
-            // 프록시 객체 초기화 먼저
-            Member reference2 = em.getReference(Member.class, member4.getId());
-            System.out.println("프록시 객체: "+reference2.getClass());
-            Member m7 = em.find(Member.class, member4.getId());
-            System.out.println("find 객체: "+m7.getClass());
-
-            /*프록시 메소드*/
-            // 초기화 여부 확인
-            Member reference4 = em.getReference(Member.class, member2.getId());
-            System.out.println("초기화 여부 확인"+ emf.getPersistenceUnitUtil().isLoaded(reference4));
-
-            //프록시 클래스 확인
-            System.out.println("초기화 여부 확인"+ reference4.getClass());
-
-            // 프록시 강제 초기화
-            Hibernate.initialize(reference4);
-
-
-            /*
-            프록시 지연로딩
-            */
-            Team team8 = new Team();
-            team8.setName("team8");
-
-            Member member8 = new Member();
-            member8.setUsername("name8");
-            member8.setTeam(team8);
-
-            em.persist(member8);
-            em.flush();
-            em.clear();
-
-            Member m8 = em.find(Member.class, member8.getId());
-
-            System.out.println(m8.getTeam().getClass());
-            System.out.println("===========");
-            m8.getTeam().getClass(); // 지연로딩 이째 프록시로 조회 함
-            System.out.println("===========");
-
-
-            /*
-            영속성 전이 CASCADE , 고아객체
-            * */
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent); // CASCADE에 의해 Child까지 persist 됨
-            em.flush();
-            em.clear();
-
-            Parent findParent1 = em.find(Parent.class, parent.getId());
-            findParent1.getChildList().remove(0); // orphan객체 같이 삭제
-
-
-            /*
-            임베디드 타입
-             */
-            Member member9 = new Member();
-            member9.setUsername("name9");
-            member9.setHomeAddress(new Address("서울","논현로","200호"));
-            member9.setWorkPeriod(new Period());
-
-            /*불변 객체*/
-
-
-            em.persist(member9);
-            em.flush();
-            em.clear();
 
 
             // 쓰기지연 sql 저장소에 모든 sql 실행

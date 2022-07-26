@@ -3,9 +3,7 @@ package hellojpa;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity //@Entity는 JPA에서 관리하는 엔티티임을 의미
 //@Table // 엔티티를 원하는 테이블과 매핑
@@ -55,6 +53,19 @@ public class Member extends BaseEntity{
                     column = @Column(name = "WORK_ZIPCODE")) })
     private Address workAddress;
 
+    @ElementCollection // 값 타입 컬렉션
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+            @JoinColumn(name = "MEMBER_ID")
+    )
+    private Set<String> favoriteFoods = new HashSet<>();
+
+    @ElementCollection// 값 타입 컬렉션
+    @CollectionTable(name = "ADDRESS", joinColumns =
+            @JoinColumn(name = "MEMBER_ID")
+    )
+    private List<Address> addresseHistory = new ArrayList<>();
+
+
     /*연관관계 편의 메소드*/
     public Long getId() {
         return id;
@@ -99,5 +110,45 @@ public class Member extends BaseEntity{
 
     public void setHomeAddress(Address homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
+
+    public List<Product> getMemberProducts() {
+        return memberProducts;
+    }
+
+    public void setMemberProducts(List<Product> memberProducts) {
+        this.memberProducts = memberProducts;
+    }
+
+    public Address getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(Address workAddress) {
+        this.workAddress = workAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public List<Address> getAddresseHistory() {
+        return addresseHistory;
+    }
+
+    public void setAddresseHistory(List<Address> addresseHistory) {
+        this.addresseHistory = addresseHistory;
     }
 }
