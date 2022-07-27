@@ -301,6 +301,16 @@ public class JpaMain {
 
 
 
+            /*
+            JPQL
+            * */
+            //검색
+            List<Member> result = em.createQuery("select m from Member m where m.username like '%kim%'",Member.class).getResultList();
+            for(Member m : result){
+                System.out.println("member = "+m.getUsername());
+            }
+
+
 
             // 쓰기지연 sql 저장소에 모든 sql 실행
             tx.commit(); // 트랜섹션 요청 실행
